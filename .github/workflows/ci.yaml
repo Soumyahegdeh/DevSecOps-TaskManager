@@ -14,55 +14,27 @@ env:
   PNPM_VERSION: '10.8.0'
 
 jobs:
-  lint-and-build:
-    name: Lint & Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run lint
-        run: pnpm lint
-
-      - name: Run build (typecheck)
-        run: pnpm build
     
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    needs: lint-and-build
+   test-and-build:
+     name: Run Tests
+     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_USER: taskuser
-          POSTGRES_PASSWORD: taskpassword
-          POSTGRES_DB: taskdb
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 5
+     services:
+       postgres:
+         image: postgres:16-alpine
+         env:
+           POSTGRES_USER: taskuser
+           POSTGRES_PASSWORD: taskpassword
+           POSTGRES_DB: taskdb
+         ports:
+           - 5432:5432
+         options: >-
+           --health-cmd pg_isready
+           --health-interval 5s
+           --health-timeout 5s
+           --health-retries 5
 
-    steps:
+     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -85,6 +57,12 @@ jobs:
         env:
           DATABASE_URL: postgresql://taskuser:taskpassword@localhost:5432/taskdb
 
+      - name: Run lint
+        run: pnpm lint
+
+      - name: Run build (typecheck)
+        run: pnpm build
+
       - name: Run unit tests
         run: pnpm test:unit:ci --coverage
         env:
@@ -106,12 +84,11 @@ jobs:
           path: coverage/
 
 
-  security-scan:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
+   security-scan:
+      name: Security Scan
+      runs-on: ubuntu-latest
+      needs: test-and-build
+      steps:
       - name: Checkout code
         uses: actions/checkout@v4
 

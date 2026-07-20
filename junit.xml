@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="22" failures="0" errors="0" time="55.806">
+  <testsuite name="Task Controller - Unit Tests" errors="0" failures="0" skipped="0" timestamp="2026-07-20T11:25:13" time="50.213" tests="15">
+    <testcase classname="Task Controller - Unit Tests getAllTasks should return all tasks for authenticated user" name="Task Controller - Unit Tests getAllTasks should return all tasks for authenticated user" time="0.138">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests getAllTasks should handle service errors" name="Task Controller - Unit Tests getAllTasks should handle service errors" time="0.009">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests getTaskById should return task if found" name="Task Controller - Unit Tests getTaskById should return task if found" time="0.002">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests getTaskById should return 404 if task not found" name="Task Controller - Unit Tests getTaskById should return 404 if task not found" time="0.002">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests createTask should create task successfully" name="Task Controller - Unit Tests createTask should create task successfully" time="0.057">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests createTask should handle validation errors" name="Task Controller - Unit Tests createTask should handle validation errors" time="0.007">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests createTask should handle service errors" name="Task Controller - Unit Tests createTask should handle service errors" time="0.002">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests updateTask should update task successfully" name="Task Controller - Unit Tests updateTask should update task successfully" time="0.006">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests updateTask should return 404 if task not found" name="Task Controller - Unit Tests updateTask should return 404 if task not found" time="0.002">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests deleteTask should delete task successfully" name="Task Controller - Unit Tests deleteTask should delete task successfully" time="0.003">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests deleteTask should return 404 if task not found" name="Task Controller - Unit Tests deleteTask should return 404 if task not found" time="0.002">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests getTasksByStatus should return tasks by status" name="Task Controller - Unit Tests getTasksByStatus should return tasks by status" time="0.002">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests getTasksByPriority should return tasks by priority" name="Task Controller - Unit Tests getTasksByPriority should return tasks by priority" time="0.001">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests getTasksByPriority should return 400 for invalid priority" name="Task Controller - Unit Tests getTasksByPriority should return 400 for invalid priority" time="0.001">
+    </testcase>
+    <testcase classname="Task Controller - Unit Tests toggleTaskCompletion should toggle task completion successfully" name="Task Controller - Unit Tests toggleTaskCompletion should toggle task completion successfully" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Auth Controller - Unit Tests" errors="0" failures="0" skipped="0" timestamp="2026-07-20T11:25:13" time="52.943" tests="7">
+    <testcase classname="Auth Controller - Unit Tests createUserController should create a user successfully" name="Auth Controller - Unit Tests createUserController should create a user successfully" time="0.04">
+    </testcase>
+    <testcase classname="Auth Controller - Unit Tests createUserController should return 400 if user already exists" name="Auth Controller - Unit Tests createUserController should return 400 if user already exists" time="0.005">
+    </testcase>
+    <testcase classname="Auth Controller - Unit Tests createUserController should handle service errors" name="Auth Controller - Unit Tests createUserController should handle service errors" time="0.034">
+    </testcase>
+    <testcase classname="Auth Controller - Unit Tests loginUserController should login user successfully" name="Auth Controller - Unit Tests loginUserController should login user successfully" time="0.004">
+    </testcase>
+    <testcase classname="Auth Controller - Unit Tests loginUserController should return 404 if user not found" name="Auth Controller - Unit Tests loginUserController should return 404 if user not found" time="0.005">
+    </testcase>
+    <testcase classname="Auth Controller - Unit Tests loginUserController should return 401 for invalid credentials" name="Auth Controller - Unit Tests loginUserController should return 401 for invalid credentials" time="0.001">
+    </testcase>
+    <testcase classname="Auth Controller - Unit Tests loginUserController should return 403 for deactivated account" name="Auth Controller - Unit Tests loginUserController should return 403 for deactivated account" time="0.009">
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -40,7 +40,7 @@ export class TaskController {
   async getTaskById(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const taskId = parseInt(req.params.id);
+      const taskId = parseInt(req.params.id as string);
 
       const task = await this.taskService.getTaskById(taskId, userId);
       if (!task) {
@@ -91,7 +91,7 @@ export class TaskController {
   async updateTask(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const taskId = parseInt(req.params.id);
+      const taskId = parseInt(req.params.id as string);
       const input = updateTaskSchema.parse(req.body);
 
       const updates: Record<string, unknown> = { ...input };
@@ -123,7 +123,7 @@ export class TaskController {
   async deleteTask(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const taskId = parseInt(req.params.id);
+      const taskId = parseInt(req.params.id as string);
 
       const result = await this.taskService.deleteTask(taskId, userId);
       if (!result.success) {
@@ -142,7 +142,7 @@ export class TaskController {
       const userId = req.user.user_id;
       const { status } = req.params;
 
-      const tasks = await this.taskService.getTasksByStatus(userId, status);
+      const tasks = await this.taskService.getTasksByStatus(userId, status as string);
       res.status(200).json(tasks);
     } catch {
       res.status(500).json({ error: 'Failed to fetch tasks by status' });
@@ -156,7 +156,7 @@ export class TaskController {
       const { priority } = req.params;
 
       // Validate priority parameter
-      if (!['LOW', 'MEDIUM', 'HIGH'].includes(priority)) {
+      if (!['LOW', 'MEDIUM', 'HIGH'].includes(priority as string)) {
         return res.status(400).json({ error: 'Invalid priority value' });
       }
 
@@ -171,7 +171,7 @@ export class TaskController {
   async toggleTaskCompletion(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const taskId = parseInt(req.params.id);
+      const taskId = parseInt(req.params.id as string);
       const { completed } = taskCompletionSchema.parse(req.body);
 
       const result = await this.taskService.toggleTaskCompletion(taskId, userId, completed);

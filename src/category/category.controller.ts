@@ -94,7 +94,7 @@ export class CategoryController {
   async getCategoryById(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const categoryId = parseInt(req.params.id);
+      const categoryId = parseInt(req.params.id as string);
 
       console.log('Getting category by ID:', { categoryId, userId });
 
@@ -114,7 +114,7 @@ export class CategoryController {
   async updateCategory(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const categoryId = parseInt(req.params.id);
+      const categoryId = parseInt(req.params.id as string);
       const input = updateCategorySchema.parse(req.body);
 
       console.log('Updating category:', { categoryId, userId, updates: input });
@@ -155,7 +155,7 @@ export class CategoryController {
   async deleteCategory(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const categoryId = parseInt(req.params.id);
+      const categoryId = parseInt(req.params.id as string);
 
       console.log('Deleting category:', { categoryId, userId });
 

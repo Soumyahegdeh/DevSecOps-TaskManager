@@ -94,4 +94,3 @@ jobs:
           DATABASE_URL: postgresql://taskuser:taskpassword@localhost:5432/taskdb
           JWT_SECRET: test-secret-for-ci
           PORT: 3000
-		  

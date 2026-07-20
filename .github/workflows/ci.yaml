@@ -87,6 +87,9 @@ jobs:
 
       - name: Run unit tests
         run: pnpm test:unit:ci --coverage
+        env:
+          DATABASE_URL: postgresql://taskuser:taskpassword@localhost:5432/taskdb
+          JWT_SECRET: test-secret-for-ci
 
       - name: Run integration tests
         run: pnpm test:integration:ci --coverage

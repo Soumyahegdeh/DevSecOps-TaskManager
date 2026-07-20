@@ -101,3 +101,20 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: auto
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run SCA (dependency audit)
+        run: pnpm audit --audit-level=high

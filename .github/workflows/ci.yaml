@@ -41,3 +41,62 @@ jobs:
 
       - name: Run build (typecheck)
         run: pnpm build
+    
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: lint-and-build
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: taskuser
+          POSTGRES_PASSWORD: taskpassword
+          POSTGRES_DB: taskdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run database migrations
+        run: pnpm migrate
+        env:
+          DATABASE_URL: postgresql://taskuser:taskpassword@localhost:5432/taskdb
+
+      - name: Run unit tests
+        run: pnpm test:unit:ci --coverage
+
+      - name: Run integration tests
+        run: pnpm test:integration:ci --coverage
+        env:
+          DATABASE_URL: postgresql://taskuser:taskpassword@localhost:5432/taskdb
+          JWT_SECRET: test-secret-for-ci
+          PORT: 3000
+		  
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/

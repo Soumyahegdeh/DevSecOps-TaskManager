@@ -1,0 +1,11 @@
+# CVE-2026-33814, CVE-2026-39820, CVE-2026-39822, CVE-2026-39836, CVE-2026-42499, CVE-2026-42504
+# Source: esbuild@0.18.20 bundled inside @esbuild-kit/core-utils, pulled in transitively by drizzle-kit (devDependency)
+# Confirmed: drizzle-kit@0.31.10 is the latest available version; no upstream fix exists yet (checked 2026-07-20)
+# Risk assessment: build/migration tooling only — not present in the running application's request-handling path
+# Action: re-check monthly for a drizzle-kit release that removes the @esbuild-kit dependency
+CVE-2026-33814
+CVE-2026-39820
+CVE-2026-39822
+CVE-2026-39836
+CVE-2026-42499
+CVE-2026-42504

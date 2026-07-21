@@ -124,7 +124,6 @@ jobs:
 
       - name: Run Trivy (container vulnerability scan)
         uses: aquasecurity/trivy-action@master
-        continue-on-error: true     # remove this later
         with:
           image-ref: taskmanager:${{ github.sha }}
           format: table
@@ -182,7 +181,7 @@ jobs:
 
       - name: Run OWASP ZAP (DAST)
         uses: zaproxy/action-baseline@v0.15.0
-        continue-on-error: true
+        continue-on-error: true  # remove later
         with:
           target: 'http://localhost:3000'
           fail_action: false    # does not block the pipeline even if the findings reported.

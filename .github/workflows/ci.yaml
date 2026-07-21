@@ -152,6 +152,9 @@ jobs:
     name: DAST Scan
     runs-on: ubuntu-latest
     needs: security-scan
+    permissions:
+      issues: write
+      contents: read
 
     steps:
       - name: Checkout code
@@ -179,6 +182,15 @@ jobs:
         with:
           target: 'http://localhost:3000'
           fail_action: false    # does not block the pipeline even if the findings reported.
+          allow_issue_writing: false
+     
+
+      - name: Upload ZAP report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: report_html.html
 
       - name: Tear down DAST containers
         if: always()

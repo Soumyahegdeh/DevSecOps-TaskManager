@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskmanager
+  namespace: taskmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taskmanager
+  template:
+    metadata:
+      labels:
+        app: taskmanager
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: taskmanager
+          image: soumyahe/taskmanager:latest
+          securityContext:
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                   name: taskmanager-secrets
+                   key: DATABASE_URL
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                   name: taskmanager-secrets
+                   key: JWT_SECRET

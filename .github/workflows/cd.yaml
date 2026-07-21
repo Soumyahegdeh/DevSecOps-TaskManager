@@ -1,0 +1,33 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  update-manifests:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # only on CI success
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Update image tags in k8s manifests
+        run: |
+            NEW_TAG=${{ github.event.workflow_run.head_sha }}
+            sed -i "s|image: soumyahe/taskmanager:${NEW_TAG}|g" gitops/k8s/app/deployment.yml
+
+      - name: Commit and push updated manifests
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add gitops/k8s/app/deployment.yml
+          git diff --staged --quiet || git commit -m "ci: update image tags to ${NEW_TAG}"
+          git push origin HEAD:main

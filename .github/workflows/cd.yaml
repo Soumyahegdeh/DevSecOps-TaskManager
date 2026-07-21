@@ -22,7 +22,7 @@ jobs:
       - name: Update image tags in k8s manifests
         run: |
             NEW_TAG=${{ github.event.workflow_run.head_sha }}
-            sed -i "s|image: soumyahe/taskmanager:${NEW_TAG}|g" gitops/k8s/app/deployment.yml
+            sed -i "s|image: soumyahe/taskmanager:.*|image: soumyahe/taskmanager:${NEW_TAG}|g" gitops/k8s/app/deployment.yml
 
       - name: Commit and push updated manifests
         run: |

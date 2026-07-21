@@ -183,7 +183,7 @@ jobs:
           target: 'http://localhost:3000'
           fail_action: false    # does not block the pipeline even if the findings reported.
           allow_issue_writing: false
-     
+          artifact_name: 'zap-scan-report'
 
       - name: Upload ZAP report
         if: always()

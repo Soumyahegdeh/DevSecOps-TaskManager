@@ -147,3 +147,41 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/taskmanager:${{ github.sha }}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/taskmanager:latest
+
+   dast-scan:
+    name: DAST Scan
+    runs-on: ubuntu-latest
+    needs: security-scan
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t taskmanager:${{ github.sha }} .
+
+      - name: Start app + database for DAST
+        run: |
+          docker network create dast-net
+          docker run -d --name dast-postgres --network dast-net \
+            -e POSTGRES_USER=taskuser -e POSTGRES_PASSWORD=taskpassword -e POSTGRES_DB=taskdb \
+            postgres:16-alpine
+          sleep 10
+          docker run -d --name dast-app --network dast-net -p 3000:3000 \
+            -e DATABASE_URL="postgresql://taskuser:taskpassword@dast-postgres:5432/taskdb" \
+            -e JWT_SECRET="test-secret-for-dast" \
+            -e PORT=3000 \
+            taskmanager:${{ github.sha }}
+          sleep 10
+
+      - name: Run OWASP ZAP (DAST)
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'http://localhost:3000'
+          fail_action: false    # does not block the pipeline even if the findings reported.
+
+      - name: Tear down DAST containers
+        if: always()
+        run: |
+          docker rm -f dast-app dast-postgres
+          docker network rm dast-net

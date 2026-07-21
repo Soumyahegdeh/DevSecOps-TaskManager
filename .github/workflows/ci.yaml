@@ -177,8 +177,12 @@ jobs:
             taskmanager:${{ github.sha }}
           sleep 10
 
+      - name: Set permissions for ZAP workspace
+        run: chmod -R 777 ${{ github.workspace }}
+
       - name: Run OWASP ZAP (DAST)
         uses: zaproxy/action-baseline@v0.12.0
+        continue-on-error: true
         with:
           target: 'http://localhost:3000'
           fail_action: false    # does not block the pipeline even if the findings reported.

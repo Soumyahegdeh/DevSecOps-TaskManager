@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: taskmanager
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Soumyahegdeh/DevSecOps-TaskManager.git'
+    targetRevision: main
+    path: gitops
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: taskmanager
+  #syncPolicy: {}
+  syncPolicy:
+     automated:
+       prune: true
+       selfHeal: true

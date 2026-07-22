@@ -41,7 +41,7 @@ spec:
               command:
                 - sh
                 - -c
-                - pg_isready -U postgres
+                - pg_isready -U taskuser
             initialDelaySeconds: 10
             periodSeconds: 5
   volumeClaimTemplates:

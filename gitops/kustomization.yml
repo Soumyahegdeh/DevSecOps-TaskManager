@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: taskmanager
+
+resources:
+  - namespace.yml
+  - secrets.yml
+  - k8s/database/statefulset.yml
+  - k8s/database/service.yml
+  - k8s/app/deployment.yml
+  - k8s/app/service.yml
+
+generatorOptions:
+  disableNameSuffixHash: true

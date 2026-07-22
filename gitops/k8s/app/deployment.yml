@@ -17,7 +17,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: taskmanager
-          image: soumyahe/taskmanager:dc0f8447629df1558bf20ce8005fbb9797879ff2
+          image: soumyahe/taskmanager:15368ff714d817a801fdf09225e1512d244aafdf
           securityContext:
             allowPrivilegeEscalation: false
           ports:
